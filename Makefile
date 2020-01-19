@@ -129,16 +129,21 @@ sl09: ; make eval EVAL_PATH=Solutions.SL09
 sl10: ; make eval EVAL_PATH=Solutions.SL10
 
 RELEASE_FILES := \
-	Makefile package.yaml stack.yaml \
+	Makefile package.yaml README.md stack.yaml \
 	src/Util/Testing.hs \
 	src/HW01.hs \
 
 RELEASE_DIR := cs225-hw-2020-01
 
-.PHONY: release
-release:
+.PHONY: prepare
+prepare:
 	cd $(RELEASE_DIR) && git clean -fd
 	$(foreach f,$(RELEASE_FILES), \
 		mkdir -p $(dir $(RELEASE_DIR)/$f) ; \
 		cp $f $(RELEASE_DIR)/$f ; \
 	)
+
+.PHONY: release
+release:
+	make prepare
+	cd cs225-hw-2020-01 && git add . && git commit -m "update" && git push
