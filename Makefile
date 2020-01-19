@@ -42,6 +42,9 @@ hw10: ; make eval EVAL_PATH=HW10
 .PHONY: pl1
 pl1: ; stack ghci --ghci-options '-e "Lang.Parse.action [\"l1\",\"$E\"]"'
 
+.PHONY: pl2
+pl2: ; stack ghci --ghci-options '-e "Lang.Parse.action [\"l2\",\"$E\"]"'
+
 # NOT USED IN HOMEWORKS
 
 .PHONY: sl01
