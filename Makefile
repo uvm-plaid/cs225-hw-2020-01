@@ -2,6 +2,10 @@
 default:
 	@echo "no arguments -- call 'make hwXX' for some homework number like 'hw01'"
 
+##############
+# RUNNING HW #
+##############
+
 .PHONY: eval
 eval:
 	@echo -------
@@ -39,13 +43,60 @@ hw09: ; make eval EVAL_PATH=HW09
 .PHONY: hw10
 hw10: ; make eval EVAL_PATH=HW10
 
+##################
+# GHCID HOMEWORK #
+##################
+
+.PHONY: dev
+dev:
+	@echo -----------
+	@echo INTERACTIVE $(EVAL_PATH)
+	@echo -----------
+	ghcid --test=$(EVAL_PATH).main --warnings
+
+.PHONY: hw01-dev
+hw01-dev: ; make dev EVAL_PATH=HW01
+
+.PHONY: hw02-dev
+hw02-dev: ; make dev EVAL_PATH=HW02
+
+.PHONY: hw03-dev
+hw03-dev: ; make dev EVAL_PATH=HW03
+
+.PHONY: hw04-dev
+hw04-dev: ; make dev EVAL_PATH=HW04
+
+.PHONY: hw05-dev
+hw05-dev: ; make dev EVAL_PATH=HW05
+
+.PHONY: hw06-dev
+hw06-dev: ; make dev EVAL_PATH=HW06
+
+.PHONY: hw07-dev
+hw07-dev: ; make dev EVAL_PATH=HW07
+
+.PHONY: hw08-dev
+hw08-dev: ; make dev EVAL_PATH=HW08
+
+.PHONY: hw09-dev
+hw09-dev: ; make dev EVAL_PATH=HW09
+
+.PHONY: hw10-dev
+hw10-dev: ; make dev EVAL_PATH=HW10
+
+###########
+# PARSING #
+###########
+
 .PHONY: pl1
 pl1: ; stack ghci --ghci-options '-e "Lang.Parse.action [\"l1\",\"$E\"]"'
 
 .PHONY: pl2
 pl2: ; stack ghci --ghci-options '-e "Lang.Parse.action [\"l2\",\"$E\"]"'
 
-# NOT USED IN HOMEWORKS
+##################
+# STAFF USE ONLY #
+##################
 
 .PHONY: sl01
 sl01: ; make eval EVAL_PATH=Solutions.SL01
