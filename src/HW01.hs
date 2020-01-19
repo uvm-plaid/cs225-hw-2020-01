@@ -28,6 +28,15 @@ import Util.Testing
 import Data.Char
 
 -- ========== --
+-- SUBMITTING --
+-- ========== --
+
+-- How to submit:
+--
+-- Submit a copy of this file only “HWXX.hs” (for XX = 01, 02, etc.) to
+-- gradescope.
+
+-- ========== --
 -- ASSIGNMENT --
 -- ========== --
 
