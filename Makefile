@@ -2,6 +2,9 @@
 default:
 	@echo "no arguments -- call 'make hwXX' for some homework number like 'hw01'"
 
+.stack-work:
+	stack setup
+
 ##############
 # RUNNING HW #
 ##############
@@ -43,12 +46,53 @@ hw09: ; make eval EVAL_PATH=HW09
 .PHONY: hw10
 hw10: ; make eval EVAL_PATH=HW10
 
+#################
+# GHCI HOMEWORK #
+#################
+
+.PHONY: interact
+interact:
+	@echo -------
+	@echo LOADING $(EVAL_PATH)
+	@echo -------
+	stack ghci src/$(EVAL_PATH).hs
+
+.PHONY: hw01-i
+hw01-i: ; make interact EVAL_PATH=HW01
+
+.PHONY: hw02-i
+hw02-i: ; make interact EVAL_PATH=HW02
+
+.PHONY: hw03-i
+hw03-i: ; make interact EVAL_PATH=HW03
+
+.PHONY: hw04-i
+hw04-i: ; make interact EVAL_PATH=HW04
+
+.PHONY: hw05-i
+hw05-i: ; make interact EVAL_PATH=HW05
+
+.PHONY: hw06-i
+hw06-i: ; make interact EVAL_PATH=HW06
+
+.PHONY: hw07-i
+hw07-i: ; make interact EVAL_PATH=HW07
+
+.PHONY: hw08-i
+hw08-i: ; make interact EVAL_PATH=HW08
+
+.PHONY: hw09-i
+hw09-i: ; make interact EVAL_PATH=HW09
+
+.PHONY: hw10-i
+hw10-i: ; make interact EVAL_PATH=HW10
+
 ##################
 # GHCID HOMEWORK #
 ##################
 
 .PHONY: dev
-dev:
+dev: .stack-work
 	@echo -----------
 	@echo INTERACTIVE $(EVAL_PATH)
 	@echo -----------
