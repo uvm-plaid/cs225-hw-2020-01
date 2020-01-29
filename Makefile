@@ -176,6 +176,7 @@ RELEASE_FILES := \
 	Makefile package.yaml README.md stack.yaml \
 	src/Util/Testing.hs \
 	src/HW01.hs \
+	src/HW02.hs src/Lang/Trees.hs src/Lang/Trees/Data.hs src/Lang/Trees/Util.hs $(wildcard tests/hw02/**/*)
 
 RELEASE_DIR := cs225-hw-2020-01
 
