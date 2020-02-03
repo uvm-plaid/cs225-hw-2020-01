@@ -46,6 +46,10 @@ hw09: ; make eval EVAL_PATH=HW09
 .PHONY: hw10
 hw10: ; make eval EVAL_PATH=HW10
 
+.PHONY: live
+live: ; make eval EVAL_PATH=Live
+
+
 #################
 # GHCI HOMEWORK #
 #################
@@ -87,6 +91,9 @@ hw09-i: ; make interact EVAL_PATH=HW09
 .PHONY: hw10-i
 hw10-i: ; make interact EVAL_PATH=HW10
 
+.PHONY: live-i
+live-i: ; make interact EVAL_PATH=Live
+
 ##################
 # GHCID HOMEWORK #
 ##################
@@ -127,6 +134,9 @@ hw09-dev: ; make dev EVAL_PATH=HW09
 
 .PHONY: hw10-dev
 hw10-dev: ; make dev EVAL_PATH=HW10
+
+.PHONY: live-dev
+live-dev: ; make dev EVAL_PATH=Live
 
 ###########
 # PARSING #
@@ -187,6 +197,7 @@ prepare:
 		mkdir -p $(dir $(RELEASE_DIR)/$f) ; \
 		cp $f $(RELEASE_DIR)/$f ; \
 	)
+	cd $(RELEASE_DIR) && git status
 
 .PHONY: release
 release:

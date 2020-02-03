@@ -99,9 +99,13 @@ runTests3 (n,name,f,tests) = runTestsN n name $ mapOn tests $ \ ((w,x,y),z) ->
 
 runTestsDir :: (Show a,Eq b,Show b) => (String,String,a -> b,String,Text -> IO (a,b)) -> IO (String,Int,Int)
 runTestsDir (n,name,f,dir,parse) = do
-  fns <- listDirectory dir
+  fns <- fmap (sort . filter notHidden) $ listDirectory dir
   xys <- mapMOn fns $ \ fn -> do
     s <- Text.readFile $ dir ++ "/" ++ fn
     parse s
   runTests1 (n,name,f,xys)
-
+  where
+    notHidden cs = case cs of
+      [] -> False
+      ('.':_) -> False
+      _ -> True
