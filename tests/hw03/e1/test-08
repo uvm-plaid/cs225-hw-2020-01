@@ -1,0 +1,8 @@
+TEST
+
+!(!(true || false) || (true && true))
+
+EXPECTED
+
+false
+

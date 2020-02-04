@@ -1,0 +1,7 @@
+TEST
+
+(4 == 4) == true
+
+EXPECTED
+
+true

@@ -5,6 +5,9 @@ default:
 .stack-work:
 	stack setup
 
+clean:
+	rm -rf .stack-work/
+
 ##############
 # RUNNING HW #
 ##############
@@ -182,24 +185,65 @@ sl09: ; make eval EVAL_PATH=Solutions.SL09
 .PHONY: sl10
 sl10: ; make eval EVAL_PATH=Solutions.SL10
 
+.PHONY: sl01-dev
+sl01-dev: ; make dev EVAL_PATH=Solutions.SL01
+
+.PHONY: sl02-dev
+sl02-dev: ; make dev EVAL_PATH=Solutions.SL02
+
+.PHONY: sl03-dev
+sl03-dev: ; make dev EVAL_PATH=Solutions.SL03
+
+.PHONY: sl04-dev
+sl04-dev: ; make dev EVAL_PATH=Solutions.SL04
+
+.PHONY: sl05-dev
+sl05-dev: ; make dev EVAL_PATH=Solutions.SL05
+
+.PHONY: sl06-dev
+sl06-dev: ; make dev EVAL_PATH=Solutions.SL06
+
+.PHONY: sl07-dev
+sl07-dev: ; make dev EVAL_PATH=Solutions.SL07
+
+.PHONY: sl08-dev
+sl08-dev: ; make dev EVAL_PATH=Solutions.SL08
+
+.PHONY: sl09-dev
+sl09-dev: ; make dev EVAL_PATH=Solutions.SL09
+
+.PHONY: sl10-dev
+sl10-dev: ; make dev EVAL_PATH=Solutions.SL10
+
+HW_RELEASE := 01 02 03
+LANG_RELEASE := Trees L1 L1M L1MN L2 L2C
+NO_TOUCHIE := src/HW02.hs
 RELEASE_FILES := \
 	Makefile package.yaml README.md stack.yaml \
-	src/Util/Testing.hs \
-	src/HW01.hs \
-	src/HW02.hs src/Lang/Trees.hs src/Lang/Trees/Data.hs src/Lang/Trees/Util.hs $(wildcard tests/hw02/**/*)
+	$(wildcard src/Util/*) \
+    $(foreach n,$(HW_RELEASE),src/HW$n.hs $(wildcard tests/hw$n/**/*)) \
+	$(foreach l,$(LANG_RELEASE),src/Lang/$l.hs $(wildcard src/Lang/$l/*.hs)) \
 
 RELEASE_DIR := cs225-hw-2020-01
 
 .PHONY: prepare
 prepare:
-	cd $(RELEASE_DIR) && git clean -fd
-	$(foreach f,$(RELEASE_FILES), \
+	@echo RELEASING FILES: $(RELEASE_FILES)
+	@echo CLEANING
+	@cd $(RELEASE_DIR) && git clean -fd
+	@echo COPYING
+	@$(foreach f,$(RELEASE_FILES), \
 		mkdir -p $(dir $(RELEASE_DIR)/$f) ; \
 		cp $f $(RELEASE_DIR)/$f ; \
 	)
-	cd $(RELEASE_DIR) && git status
+	@echo REVERTING FILES: $(NO_TOUCHIE)
+	@$(foreach f,$(NO_TOUCHIE), \
+	  cd $(RELEASE_DIR) && git checkout $f ; \
+	)
+	@echo STATUS
+	@cd $(RELEASE_DIR) && git status && git add --dry-run .
 
 .PHONY: release
 release:
 	make prepare
-	cd cs225-hw-2020-01 && git add . && git commit -m "update" && git push
+	cd $(RELEASE_DIR) && git add . && git commit -m "update" && git push

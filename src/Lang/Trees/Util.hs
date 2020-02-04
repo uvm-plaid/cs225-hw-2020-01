@@ -72,32 +72,11 @@ pTree = cpNewContext "tree" $ concat
        return $ Node i t₁ t₂
   ]
 
-pTTest ∷ CParser TokenBasic (Tree,Tree)
-pTTest = cpNewContext "test" $ concat
-  [ do cpSyntax "TEST"
-       t ← pTree
-       cpSyntax "EXPECTED"
-       t' ← pTree
-       return (t,t')
-  ]
-
-pRTest ∷ CParser TokenBasic (Tree,HS.Int)
-pRTest = cpNewContext "test" $ concat
-  [ do cpSyntax "TEST"
-       t ← pTree
-       cpSyntax "EXPECTED"
-       i ← HS.fromIntegral ^$ cpInteger
-       return (t,i)
-  ]
+pInt ∷ CParser TokenBasic HS.Int
+pInt = HS.fromIntegral  ^$ cpInteger
 
 parseTree ∷ 𝕊 → IO Tree
 parseTree = parseIO pTree *∘ tokenizeIO lexer ∘ tokens
-
-parseTTest ∷ 𝕊 → IO (Tree,Tree)
-parseTTest = parseIO pTTest *∘ tokenizeIO lexer ∘ tokens
-
-parseRTest ∷ 𝕊 → IO (Tree,HS.Int)
-parseRTest = parseIO pRTest *∘ tokenizeIO lexer ∘ tokens
 
 quoteTree ∷ HS.String → QQ.Q QQ.Exp
 quoteTree cs = do
@@ -108,3 +87,15 @@ tree ∷ QQ.QuasiQuoter
 tree = QQ.QuasiQuoter quoteTree (const $ HS.fail $ chars "quote pattern - I can't even") 
                                 (const $ HS.fail $ chars "quote type - I can't even") 
                                 (const $ HS.fail $ chars "quote dec - I can't even")
+
+pTest ∷ CParser TokenBasic a → CParser TokenBasic b → CParser TokenBasic (a,b)
+pTest pA pB = cpNewContext "test" $ concat
+  [ do cpSyntax "TEST"
+       e ← pA
+       cpSyntax "EXPECTED"
+       a ← pB
+       return (e,a)
+  ]
+
+parseTest ∷ (Pretty a,Pretty b) ⇒ CParser TokenBasic a → CParser TokenBasic b → 𝕊 → IO (a,b)
+parseTest pA pB = parseIO (pTest pA pB) *∘ tokenizeIO lexer ∘ tokens

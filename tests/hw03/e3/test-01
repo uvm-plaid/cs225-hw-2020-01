@@ -1,0 +1,11 @@
+TEST
+
+{1,2}
+
+AND
+
+{2,3}
+
+EXPECTED
+
+true

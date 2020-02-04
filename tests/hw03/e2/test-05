@@ -1,0 +1,7 @@
+TEST
+
+(4 + 3 == 1 + 2 * 3) && (true || true && false)
+
+EXPECTED
+
+!(!(4 + 3 == 1 + 2 * 3) || !(true || !(!true || !false)))
