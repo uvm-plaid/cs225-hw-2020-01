@@ -245,5 +245,6 @@ prepare:
 
 .PHONY: release
 release:
-	make prepare
-	cd $(RELEASE_DIR) && git add . && git commit -m "update" && git push
+	@make prepare
+	@echo COMMITTING
+	@cd $(RELEASE_DIR) && git add . && git commit -m "update" && git push
