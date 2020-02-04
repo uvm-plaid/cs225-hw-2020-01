@@ -34,7 +34,7 @@
    ,ViewPatterns 
    ,DeriveLift #-}
 
-module Lang.Lex where
+module Util.Lex where
 
 import UVMHS
 
