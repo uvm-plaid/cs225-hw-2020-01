@@ -99,3 +99,29 @@ pTest pA pB = cpNewContext "test" $ concat
 
 parseTest ∷ (Pretty a,Pretty b) ⇒ CParser TokenBasic a → CParser TokenBasic b → 𝕊 → IO (a,b)
 parseTest pA pB = parseIO (pTest pA pB) *∘ tokenizeIO lexer ∘ tokens
+
+-- DEPRECATED
+--
+pTTest ∷ CParser TokenBasic (Tree,Tree)
+pTTest = cpNewContext "test" $ concat
+  [ do cpSyntax "TEST"
+       t ← pTree
+       cpSyntax "EXPECTED"
+       t' ← pTree
+       return (t,t')
+  ]
+
+pRTest ∷ CParser TokenBasic (Tree,HS.Int)
+pRTest = cpNewContext "test" $ concat
+  [ do cpSyntax "TEST"
+       t ← pTree
+       cpSyntax "EXPECTED"
+       i ← HS.fromIntegral ^$ cpInteger
+       return (t,i)
+  ]
+
+parseTTest ∷ 𝕊 → IO (Tree,Tree)
+parseTTest = parseIO pTTest *∘ tokenizeIO lexer ∘ tokens
+
+parseRTest ∷ 𝕊 → IO (Tree,HS.Int)
+parseRTest = parseIO pRTest *∘ tokenizeIO lexer ∘ tokens
