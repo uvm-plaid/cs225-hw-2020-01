@@ -1,0 +1,13 @@
+TEST
+
+{}
+
+AND
+
+let x = 1 + false in
+5
+
+
+EXPECTED
+
+bad

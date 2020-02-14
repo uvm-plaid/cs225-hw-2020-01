@@ -39,12 +39,16 @@ module Util.Lex where
 import UVMHS
 
 import qualified Data.Set as Set
+import qualified Data.Map as Map
+
+instance (Ord a,Pretty a) ⇒ Pretty (Set.Set a) where pretty = pretty ∘ pow ∘ Set.toList
+instance (Ord k,Pretty k,Pretty v) ⇒ Pretty (Map.Map k v) where pretty = pretty ∘ assoc ∘ frhs ∘ Map.toList
 
 lexer ∷ Lexer CharClass ℂ TokenClassBasic ℕ64 TokenBasic
 lexer = lexerBasic puns kws prim ops
   where
     puns = list ["(",")","{","}",".",",",";",":","=","->"]
-    kws = list ["TEST","EXPECTED","AND","let","in","object"]
+    kws = list ["TEST","EXPECTED","AND","let","in","if","then","else","object"]
     prim = list ["true","false","bad"]
     ops = list ["+","-","*","/","<",">","<=",">=","==","/=","||","&&","!"]
 
@@ -57,6 +61,12 @@ pBool = concat
 pInt ∷ CParser TokenBasic ℤ
 pInt = cpInteger
 
+pString ∷ CParser TokenBasic [ℂ]
+pString = chars ^$ cpString
+
+pVar ∷ CParser TokenBasic [ℂ]
+pVar = chars ∘ 𝕩name ^$ cpName
+
 pSet ∷ (Ord a) ⇒ CParser TokenBasic a → CParser TokenBasic (Set.Set a)
 pSet pX = cpNewContext "set" $ do
   cpSyntax "{"
@@ -64,7 +74,16 @@ pSet pX = cpNewContext "set" $ do
   cpSyntax "}"
   return $ Set.fromList $ lazyList xs
 
-instance (Pretty a,Ord a) ⇒ Pretty (Set.Set a) where pretty = pretty ∘ pow ∘ Set.toList
+pMap ∷ (Ord k) ⇒ CParser TokenBasic k → CParser TokenBasic v → CParser TokenBasic (Map.Map k v)
+pMap pK pV = cpNewContext "map" $ do
+  cpSyntax "{"
+  xvs ← cpManySepBy (cpSyntax ",") $ do
+    x ← pK
+    cpSyntax "="
+    v ← pV
+    return (x,v)
+  cpSyntax "}"
+  return $ Map.fromList $ tohs xvs
 
 pPair ∷ CParser TokenBasic a → CParser TokenBasic b → CParser TokenBasic (a,b)
 pPair pX pY = cpNewContext "pair" $ do

@@ -1,0 +1,11 @@
+TEST
+
+{x, y, z}
+
+AND
+
+if x then y else z
+
+EXPECTED
+
+true

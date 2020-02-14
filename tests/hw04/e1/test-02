@@ -1,0 +1,7 @@
+TEST
+
+x + y + z
+
+EXPECTED
+
+{x, y, z}

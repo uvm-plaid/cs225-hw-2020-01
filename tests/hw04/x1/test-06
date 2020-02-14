@@ -1,0 +1,11 @@
+TEST
+
+{y}
+
+AND
+
+(let x = y in y) + x
+
+EXPECTED
+
+false

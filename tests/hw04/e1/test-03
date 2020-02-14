@@ -1,0 +1,7 @@
+TEST
+
+if x then y else z
+
+EXPECTED
+
+{x, y, z}

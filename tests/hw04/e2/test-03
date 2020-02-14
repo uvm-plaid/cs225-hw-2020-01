@@ -1,0 +1,15 @@
+TEST
+
+x
+
+AND
+
+1 + 2
+
+AND
+
+if y then x else z
+
+EXPECTED
+
+if y then (1 + 2) else z

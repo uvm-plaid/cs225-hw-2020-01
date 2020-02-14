@@ -1,0 +1,13 @@
+TEST
+
+{x = 1}
+
+AND
+
+let x = x in
+x + x
+
+
+EXPECTED
+
+2

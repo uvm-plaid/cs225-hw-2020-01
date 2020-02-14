@@ -1,0 +1,11 @@
+TEST
+
+{x, y, z}
+
+AND
+
+x + y + z
+
+EXPECTED
+
+true

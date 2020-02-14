@@ -1,0 +1,11 @@
+TEST
+
+let x = true in
+let y = 5 in
+if x 
+then y
+else 1 + false
+
+EXPECTED
+
+5

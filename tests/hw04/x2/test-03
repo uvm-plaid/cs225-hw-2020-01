@@ -1,0 +1,13 @@
+TEST
+
+{x = true, y = 5}
+
+AND
+
+if x 
+then y
+else 1 + false
+
+EXPECTED
+
+5

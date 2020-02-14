@@ -1,0 +1,15 @@
+TEST
+
+y
+
+AND
+
+let y = 2 in y
+
+AND
+
+let y = y in y
+
+EXPECTED
+
+let y = (let y = 2 in y) in y
