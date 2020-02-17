@@ -1,0 +1,11 @@
+TEST
+
+def f(x) = g(x)
+def g(x) = if x then 100 else g(true)
+do
+f(false)
+
+EXPECTED
+
+100
+

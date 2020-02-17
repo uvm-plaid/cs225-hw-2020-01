@@ -1,0 +1,15 @@
+TEST
+
+x y
+
+AND
+
+1 2 3
+
+AND
+
+{x = 100, a = 200}
+
+EXPECTED
+
+nothing

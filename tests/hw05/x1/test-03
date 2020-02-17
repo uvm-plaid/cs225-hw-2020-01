@@ -1,0 +1,7 @@
+TEST
+
+{ Camilla = 30 }
+
+EXPECTED
+
+nothing

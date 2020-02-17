@@ -1,0 +1,11 @@
+TEST
+
+{ f(x) = x + x }
+
+AND
+
+def f(y) = y + y + y
+
+EXPECTED
+
+{ f(y) = y + y + y }

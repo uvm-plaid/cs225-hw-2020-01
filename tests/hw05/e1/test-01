@@ -1,0 +1,15 @@
+TEST
+
+{ f(x) = x + x }
+
+AND
+
+def g(y) = y + y + y
+def h(z) = z
+
+EXPECTED
+
+{ f(x) = x + x
+, g(y) = y + y + y
+, h(z) = z
+}

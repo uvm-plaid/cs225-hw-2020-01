@@ -1,0 +1,17 @@
+TEST
+
+happy
+sassy
+sleepy
+
+AND
+
+fish
+cat
+Walter
+
+EXPECTED
+
+happy-fish
+sassy-cat
+sleepy-Walter

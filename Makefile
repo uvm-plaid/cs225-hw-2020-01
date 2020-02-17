@@ -215,9 +215,9 @@ sl09-dev: ; make dev EVAL_PATH=Solutions.SL09
 .PHONY: sl10-dev
 sl10-dev: ; make dev EVAL_PATH=Solutions.SL10
 
-HW_RELEASE := 01 02 03 04
-LANG_RELEASE := Trees L1 L1M L1MN L2 L2C L3
-NO_TOUCHIE := src/HW02.hs
+HW_RELEASE := 01 02 03 04 05
+LANG_RELEASE := Trees L1 L1M L1MN L2 L2C L3 L4
+NO_TOUCHIE := src/HW02.hs src/HW03.hs
 RELEASE_FILES := \
 	Makefile package.yaml README.md stack.yaml \
 	$(wildcard src/Util/*) \
@@ -238,7 +238,7 @@ prepare:
 	)
 	@echo REVERTING FILES: $(NO_TOUCHIE)
 	@$(foreach f,$(NO_TOUCHIE), \
-	  cd $(RELEASE_DIR) && git checkout $f ; \
+	  (cd $(RELEASE_DIR) && git checkout $f) ; \
 	)
 	@echo STATUS
 	@cd $(RELEASE_DIR) && git status && git add --dry-run .

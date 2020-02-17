@@ -1,0 +1,9 @@
+TEST
+
+def f(x) = x + 1
+do
+f(10)
+
+EXPECTED
+
+11

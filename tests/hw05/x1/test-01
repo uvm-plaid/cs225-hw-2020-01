@@ -1,0 +1,7 @@
+TEST
+
+{ Walter = 20 }
+
+EXPECTED
+
+21

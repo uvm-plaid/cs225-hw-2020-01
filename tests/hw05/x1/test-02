@@ -1,0 +1,7 @@
+TEST
+
+{ Walter = 20, Camilla = 30 }
+
+EXPECTED
+
+21

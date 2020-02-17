@@ -1,0 +1,10 @@
+TEST
+
+def x(x) = x + x
+def y(x) = x(x)
+do
+y(2) + x(3)
+
+EXPECTED
+
+10

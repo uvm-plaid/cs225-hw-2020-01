@@ -38,17 +38,20 @@ module Util.Lex where
 
 import UVMHS
 
+import qualified Prelude as HS
+
 import qualified Data.Set as Set
 import qualified Data.Map as Map
 
 instance (Ord a,Pretty a) ⇒ Pretty (Set.Set a) where pretty = pretty ∘ pow ∘ Set.toList
 instance (Ord k,Pretty k,Pretty v) ⇒ Pretty (Map.Map k v) where pretty = pretty ∘ assoc ∘ frhs ∘ Map.toList
+instance (Pretty a) ⇒ Pretty (HS.Maybe a) where pretty = pretty ∘ \case { HS.Nothing → None ; HS.Just x → Some x}
 
 lexer ∷ Lexer CharClass ℂ TokenClassBasic ℕ64 TokenBasic
 lexer = lexerBasic puns kws prim ops
   where
     puns = list ["(",")","{","}",".",",",";",":","=","->"]
-    kws = list ["TEST","EXPECTED","AND","let","in","if","then","else","object"]
+    kws = list ["TEST","EXPECTED","AND","let","in","if","then","else","object","def","do","nothing"]
     prim = list ["true","false","bad"]
     ops = list ["+","-","*","/","<",">","<=",">=","==","/=","||","&&","!"]
 
@@ -91,6 +94,16 @@ pPair pX pY = cpNewContext "pair" $ do
   cpSyntax "AND"
   y ← pY
   return (x,y)
+
+pMany ∷ CParser TokenBasic a → CParser TokenBasic [a]
+pMany = tohs ^∘ cpMany
+
+pMaybe ∷ CParser TokenBasic a → CParser TokenBasic (HS.Maybe a)
+pMaybe xM = tries 
+  [ do cpSyntax "nothing" 
+       return HS.Nothing 
+  , HS.Just ^$ xM 
+  ]
 
 pTest ∷ CParser TokenBasic a → CParser TokenBasic b → CParser TokenBasic (a,b)
 pTest pA pB = cpNewContext "test" $ concat
