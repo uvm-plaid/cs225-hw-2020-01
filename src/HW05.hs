@@ -44,13 +44,13 @@ import qualified Lang.L4 as L4
 -- Submit a copy of this file only “HWXX.hs” (for XX = 01, 02, etc.) to
 -- gradescope.
 
--- -- ======== --
--- -- EXAMPLES --
--- -- ======== --
--- 
--- ----------
--- -- [X1] --
--- ----------
+-- ======== --
+-- EXAMPLES --
+-- ======== --
+
+----------
+-- [X1] --
+----------
 
 -- Fine the value associated with Walter in the map and add 1 to the result.
 
