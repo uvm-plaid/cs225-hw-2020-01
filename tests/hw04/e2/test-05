@@ -1,0 +1,15 @@
+TEST
+
+x
+
+AND
+
+100
+
+AND
+
+let y = x in x
+
+EXPECTED
+
+let y = 100 in 100
