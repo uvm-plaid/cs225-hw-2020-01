@@ -52,7 +52,7 @@ import qualified Lang.L4 as L4
 -- [X1] --
 ----------
 
--- Fine the value associated with Walter in the map and add 1 to the result.
+-- Find the value associated with Walter in the map and add 1 to the result.
 
 findWalterAddOne :: Map String Integer -> Maybe Integer
 findWalterAddOne m = case Map.lookup "Walter" m of
@@ -125,6 +125,10 @@ testX3 = TestDir
 -- Write a function that interprets many commands at once. Commands transform
 -- an incoming function environment and add a new entry into the outgoing
 -- function environment. See test cases for expected functionality.
+--
+-- HINTS:
+-- - use `interpCommand` (X2)
+-- - use recursion on lists
 
 interpCommandMany :: L4.FEnv -> [L4.Command] -> L4.FEnv
 interpCommandMany fenv cs = error "TODO"
@@ -144,7 +148,14 @@ testE1 = TestDir
 
 -- Write a function that extends a standard environment to map a list of names
 -- to a list of values. If the number of names is different from the number of
--- values, this should fail by returning `Nothing`.
+-- values, this should fail by returning `Nothing`. See test cases for expected
+-- functionality.
+--
+-- HINTS:
+-- - documentation for `Map` in Haskell: https://hackage.haskell.org/package/containers/docs/Data-Map-Lazy.html
+-- - look at `combineWords` (X3) for inspiration
+-- - use recursion on lists
+-- - use `Map.insert`
 
 extendEnvMany :: [String] -> [L4.Value] -> L4.Env -> Maybe L4.Env
 extendEnvMany xs vs env = error "TODO"
@@ -179,9 +190,29 @@ testE2 = TestDir
 -- program expression. The test cases for this exercise are in terms of
 -- `interp` (which provided to you and calls `interpExpr`), whereas you need to
 -- implement `interpExpr`.
+--
+-- HINTS:
+-- - use `extendEnvMany` (E2) in CallE case
 
 interpExpr :: L4.FEnv -> L4.Env -> L4.Expr -> L4.Answer
-interpExpr fenv env e = error "TODO"
+interpExpr fenv env e = case e of
+  L4.IntE i -> L4.ValueA (L4.IntV i)
+  L4.PlusE e1 e2 -> case (interpExpr fenv env e1,interpExpr fenv env e2) of
+    (L4.ValueA (L4.IntV i1),L4.ValueA (L4.IntV i2)) -> L4.ValueA (L4.IntV (i1 + i2))
+    _ -> L4.BadA
+  L4.TimesE e1 e2 -> case (interpExpr fenv env e1,interpExpr fenv env e2) of
+    (L4.ValueA (L4.IntV i1),L4.ValueA (L4.IntV i2)) -> L4.ValueA (L4.IntV (i1 * i2))
+    _ -> L4.BadA
+  L4.BoolE b -> L4.ValueA (L4.BoolV b)
+  L4.IfE e1 e2 e3 -> case interpExpr fenv env e1 of
+    L4.ValueA (L4.BoolV b) ->
+      if b 
+      then interpExpr fenv env e2
+      else interpExpr fenv env e3
+    _ -> L4.BadA
+  L4.VarE x -> error "TODO"
+  L4.LetE x e1 e2 -> error "TODO"
+  L4.CallE fx es -> error "TODO"
 
 interpExprMany :: L4.FEnv -> L4.Env -> [L4.Expr] -> Maybe [L4.Value]
 interpExprMany fenv env es = case es of

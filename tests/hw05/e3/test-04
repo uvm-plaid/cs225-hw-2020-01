@@ -1,0 +1,10 @@
+TEST
+
+def f(x) = x + y
+do
+let y = 5
+in f(1)
+
+EXPECTED
+
+bad
