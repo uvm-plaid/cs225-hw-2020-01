@@ -1,0 +1,9 @@
+TEST
+
+let x = 5 + 1 in
+let y = 1 + false in
+7
+
+EXPECTED
+
+bad

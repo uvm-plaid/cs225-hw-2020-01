@@ -1,0 +1,7 @@
+TEST
+
+let x = y in x + z
+
+EXPECTED
+
+{ y , z }

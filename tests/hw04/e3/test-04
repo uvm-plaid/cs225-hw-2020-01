@@ -1,0 +1,11 @@
+TEST
+
+let x = 1 + 1 in
+let y = x * 5 in
+if false
+then x * y
+else y * y
+
+EXPECTED
+
+100

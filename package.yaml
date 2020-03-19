@@ -9,6 +9,7 @@ library:
   dependencies: 
     - base 
     - containers
+    - deepseq
     - directory
     - template-haskell
     - text

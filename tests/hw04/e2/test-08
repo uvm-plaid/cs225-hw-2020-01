@@ -1,0 +1,15 @@
+TEST
+
+y
+
+AND
+
+let x = 2 in x
+
+AND
+
+let y = y + 1 in y + y
+
+EXPECTED
+
+let y = ((let x = 2 in x) + 1) in y + y

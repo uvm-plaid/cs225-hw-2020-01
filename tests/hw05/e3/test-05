@@ -1,0 +1,9 @@
+TEST
+
+def f() = 1 + 4
+do
+f()
+
+EXPECTED
+
+5

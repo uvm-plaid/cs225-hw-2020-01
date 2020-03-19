@@ -1,0 +1,7 @@
+TEST
+
+fun x => x + y + z
+
+EXPECTED
+
+{ y , z }

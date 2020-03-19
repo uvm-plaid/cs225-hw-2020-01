@@ -1,0 +1,15 @@
+TEST
+
+f
+
+AND
+
+fun x => x
+
+AND
+
+fun y => f y
+
+EXPECTED
+
+fun y => (fun x => x) y

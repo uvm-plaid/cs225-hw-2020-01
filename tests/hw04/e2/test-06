@@ -1,0 +1,15 @@
+TEST
+
+x
+
+AND
+
+let y = 1 in y + y
+
+AND
+
+x + y
+
+EXPECTED
+
+(let y = 1 in y + y) + y

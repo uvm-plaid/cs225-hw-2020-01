@@ -1,0 +1,21 @@
+TEST
+
+x
+
+AND
+
+1
+
+AND
+
+(let x = 1 in
+ (fun y => x + y) x)
++
+x
+
+EXPECTED
+
+(let x = 1 in
+ (fun y => x + y) x)
++
+1

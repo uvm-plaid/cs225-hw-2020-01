@@ -1,0 +1,15 @@
+TEST
+
+x
+
+AND
+
+1 + 1
+
+AND
+
+x + true
+
+EXPECTED
+
+(1 + 1) + true

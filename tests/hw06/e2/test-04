@@ -1,0 +1,10 @@
+TEST
+
+let x = 5 in
+let f = fun x => let x = x + 1 in
+                 fun y => x + y in
+f 2
+
+EXPECTED
+
+fun y => 3 + y

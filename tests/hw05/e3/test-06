@@ -1,0 +1,9 @@
+TEST
+
+def f(x, y) = x + y
+do
+f(2 + 1 + 2, 10)
+
+EXPECTED
+
+15

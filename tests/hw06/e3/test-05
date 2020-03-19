@@ -1,0 +1,9 @@
+TEST
+
+let f = fun x => x + y in 
+let y = 2 in
+f 3
+
+EXPECTED
+
+bad

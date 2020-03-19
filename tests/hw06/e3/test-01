@@ -1,0 +1,9 @@
+TEST
+
+let f = fun x => fun y => 2 + y in 
+let g = f 3 in
+g 2
+
+EXPECTED
+
+4

@@ -1,6 +1,7 @@
-{-# LANGUAGE GADTs #-}
+{-# LANGUAGE GADTs, BangPatterns #-}
 module Util.Testing where
 
+import Control.DeepSeq
 import Control.Exception
 import Control.Monad
 import Data.List
@@ -78,7 +79,7 @@ runTestsN :: (Eq a,Show a) => String -> String -> [(String,() -> a,a)] -> IO (St
 runTestsN n name tests = do
   putStrLn $ ">> " ++ n ++ " Tests: " ++ name
   (passed,failed) <- foldMOn (0,0) (zip [(1::Int)..] tests) $ \ pf (m,(s,fx,y)) -> do
-    y'M <- catch (Right <$> evaluate (fx ())) $ \ (SomeException e) -> return $ Left $ chomp $ unwords $ lines $ show e
+    y'M <- catch (Right <$> evaluate (let y = fx (); !_ = force (show y) in y)) $ \ (SomeException e) -> return $ Left $ chomp $ unwords $ lines $ show e
     showTestResult n m s y y'M pf
   return (n,passed,failed)
   where

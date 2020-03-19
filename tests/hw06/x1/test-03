@@ -1,0 +1,7 @@
+TEST
+
+fun x => let y = x in y
+
+EXPECTED
+
+fun x => let y = x in y

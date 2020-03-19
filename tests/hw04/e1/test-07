@@ -1,0 +1,7 @@
+TEST
+
+let x = 1 + y in x + 17
+
+EXPECTED
+
+{ y }
