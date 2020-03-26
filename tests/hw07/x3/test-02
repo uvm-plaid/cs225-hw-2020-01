@@ -1,0 +1,7 @@
+TEST
+
+x <- 1 ; x
+
+EXPECTED
+
+{x}

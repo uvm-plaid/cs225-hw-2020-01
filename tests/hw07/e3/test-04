@@ -1,0 +1,14 @@
+TEST
+
+let x = box false in
+let y = box 20 in
+if x <- true then !x else y <- 100
+
+EXPECTED
+
+true
+
+AND
+
+{ 0 = true , 1 = 20 }
+

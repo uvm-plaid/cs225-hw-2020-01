@@ -1,0 +1,15 @@
+TEST
+
+let y = box 10 in
+let f = fun x => x + !y in
+y <- 20 ;
+let y = box 30 in
+f 100
+
+EXPECTED
+
+120
+
+AND
+
+{ 0 = 20 , 1 = 30 }

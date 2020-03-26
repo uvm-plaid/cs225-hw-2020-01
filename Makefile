@@ -215,8 +215,8 @@ sl09-dev: ; make dev EVAL_PATH=Solutions.SL09
 .PHONY: sl10-dev
 sl10-dev: ; make dev EVAL_PATH=Solutions.SL10
 
-HW_RELEASE := 01 02 03 04 05 06
-LANG_RELEASE := Trees L1 L1M L1MN L2 L2C L3 L4 L5
+HW_RELEASE := 01 02 03 04 05 06 07
+LANG_RELEASE := Trees L1 L1M L1MN L2 L2C L3 L4 L5 L6
 NO_TOUCHIE := src/HW02.hs src/HW03.hs src/HW06.hs
 RELEASE_FILES := \
 	Makefile package.yaml README.md stack.yaml \
@@ -248,3 +248,7 @@ release:
 	@make prepare
 	@echo COMMITTING
 	@cd $(RELEASE_DIR) && git add . && git commit -m "update" && git push
+
+.PHONY: re
+re:
+	touch src/Live.hs

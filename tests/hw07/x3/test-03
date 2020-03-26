@@ -1,0 +1,7 @@
+TEST
+
+let x = x <- y in x
+
+EXPECTED
+
+{x, y}

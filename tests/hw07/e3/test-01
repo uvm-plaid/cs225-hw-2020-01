@@ -1,0 +1,11 @@
+TEST
+
+let x = box 10 in x
+
+EXPECTED
+
+loc 0
+
+AND
+
+{ 0 = 10 }

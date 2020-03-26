@@ -1,0 +1,9 @@
+TEST
+
+let y = 1 in
+let f = fun x => x + y in
+f
+
+EXPECTED
+
+(fun x => x + y ; { y = 1 })

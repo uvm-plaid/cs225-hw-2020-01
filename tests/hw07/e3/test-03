@@ -1,0 +1,14 @@
+TEST
+
+let x = box 10 in 
+let y = box 20 in
+(x <- !y) + !x
+
+EXPECTED
+
+40
+
+AND
+
+{ 0 = 20 , 1 = 20 }
+
