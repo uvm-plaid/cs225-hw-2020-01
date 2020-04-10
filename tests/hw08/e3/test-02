@@ -1,0 +1,18 @@
+TEST
+
+let x = 100 in
+let MyClass = 
+      class
+      fields x y
+      method get-x => !self.x
+      method get-y => !self.y
+      method closure-x => x
+      end
+in
+let x = 10 in
+let p = new MyClass { x = 1, y = 2 } in 
+p.get-x + p.get-y + p.closure-x
+
+EXPECTED
+
+103

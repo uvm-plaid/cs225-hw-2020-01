@@ -1,0 +1,19 @@
+TEST
+
+[(x, !(box 1) + a), (y, 2 + !b)]
+
+AND
+
+{a = 10, b = loc 1}
+
+AND
+
+{loc 1 = 100}
+
+EXPECTED
+
+{x = loc 4, y = loc 3}
+
+AND
+
+{loc 1 = 100, loc 2 = 1, loc 3 = 102, loc 4 = 11}

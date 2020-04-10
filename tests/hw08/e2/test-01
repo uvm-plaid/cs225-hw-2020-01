@@ -1,0 +1,20 @@
+TEST
+
+[(x, 1 + 1), (y, 2 + 2)]
+
+AND
+
+{}
+
+AND
+
+{}
+
+EXPECTED
+
+{x = loc 1, y = loc 0}
+
+AND
+
+{loc 0 = 4, loc 1 = 2}
+

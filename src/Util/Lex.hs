@@ -50,8 +50,18 @@ instance (Pretty a) ⇒ Pretty (HS.Maybe a) where pretty = pretty ∘ \case { HS
 lexer ∷ Lexer CharClass ℂ TokenClassBasic ℕ64 TokenBasic
 lexer = lexerBasic puns kws prim ops
   where
-    puns = list ["(",")","{","}",".",",",";",":","=","->","=>","<-","<=","!","#"]
-    kws = list ["TEST","EXPECTED","AND","let","in","if","then","else","object","def","do","nothing","fun","box"]
+    puns = list ["(",")","{","}","[","]",".",",",";",":","=","->","=>","<-","<=","!","#"]
+    kws = list 
+      [ "TEST","EXPECTED","AND"
+      , "let","in","if","then","else"
+      , "object"
+      , "def"
+      , "do"
+      , "nothing"
+      , "fun"
+      , "box"
+      , "class","fields","method","end","new","object"
+      ]
     prim = list ["true","false","bad","loc"]
     ops = list ["+","-","*","/","<",">","<=",">=","==","/=","||","&&"]
 
@@ -77,6 +87,13 @@ pSet pX = cpNewContext "set" $ do
   cpSyntax "}"
   return $ Set.fromList $ lazyList xs
 
+pList ∷ CParser TokenBasic a → CParser TokenBasic [a]
+pList pX = cpNewContext "list" $ do
+  cpSyntax "["
+  xs ← cpManySepBy (cpSyntax ",") pX
+  cpSyntax "]"
+  return $ tohs xs
+
 pMap ∷ (Ord k) ⇒ CParser TokenBasic k → CParser TokenBasic v → CParser TokenBasic (Map.Map k v)
 pMap pK pV = cpNewContext "map" $ do
   cpSyntax "{"
@@ -93,6 +110,15 @@ pPair pX pY = cpNewContext "pair" $ do
   x ← pX
   cpSyntax "AND"
   y ← pY
+  return (x,y)
+
+pTup ∷ CParser TokenBasic a → CParser TokenBasic b → CParser TokenBasic (a,b)
+pTup pX pY = cpNewContext "tup" $ do
+  cpSyntax "("
+  x ← pX
+  cpSyntax ","
+  y ← pY
+  cpSyntax ")"
   return (x,y)
 
 pMany ∷ CParser TokenBasic a → CParser TokenBasic [a]

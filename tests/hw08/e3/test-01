@@ -1,0 +1,25 @@
+TEST
+
+let Point = 
+      class
+      fields x y
+      method get-x => !self.x
+      method get-y => !self.y
+      method set-x => fun x => self.x <- x
+      method set-y => fun y => self.y <- y
+      method norm-sq => self.get-x * self.get-x + self.get-y * self.get-y
+      method double => 
+        self.set-x (self.get-x * 2) ;
+        self.set-y (self.get-y * 2)
+      end
+in
+let p = new Point { x = 1, y = 2 } in 
+let x = p.norm-sq in                  -- x = 1² + 2² = 1 + 4 = 5
+p.set-x 3 ;
+p.set-y 4 ;
+p.double ;
+x + p.norm-sq                         -- p.norm-sq = 6² + 8² = 36 + 64 = 100
+
+EXPECTED
+
+105
