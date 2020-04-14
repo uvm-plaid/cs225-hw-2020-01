@@ -1,0 +1,7 @@
+TEST
+
+if true-or-false then true-or-false else one-or-two
+
+EXPECTED
+
+< false , [1,2] , {true,false} >

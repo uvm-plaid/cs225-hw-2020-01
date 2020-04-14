@@ -1,0 +1,15 @@
+TEST
+
+< false , _|_ , {true,false} >
+
+AND
+
+< false , [-1,0] , {} >
+
+AND
+
+< false , [0,1] , {} >
+
+EXPECTED
+
+< false , [-1,1] , {} >

@@ -1,0 +1,7 @@
+TEST
+
+true-or-false
+
+EXPECTED
+
+< false , _|_ , {true,false} >

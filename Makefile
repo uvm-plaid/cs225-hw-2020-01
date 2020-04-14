@@ -215,8 +215,8 @@ sl09-dev: ; make dev EVAL_PATH=Solutions.SL09
 .PHONY: sl10-dev
 sl10-dev: ; make dev EVAL_PATH=Solutions.SL10
 
-HW_RELEASE := 01 02 03 04 05 06 07 08
-LANG_RELEASE := Trees L1 L1M L1MN L2 L2C L3 L4 L5 L6 L7
+HW_RELEASE := 01 02 03 04 05 06 07 08 09
+LANG_RELEASE := Trees L1 L1M L1MN L2 L2C L3 L4 L5 L6 L7 L8
 NO_TOUCHIE := src/HW02.hs src/HW03.hs src/HW06.hs src/HW07.hs
 RELEASE_FILES := \
 	Makefile package.yaml README.md stack.yaml \

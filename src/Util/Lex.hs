@@ -50,7 +50,7 @@ instance (Pretty a) ⇒ Pretty (HS.Maybe a) where pretty = pretty ∘ \case { HS
 lexer ∷ Lexer CharClass ℂ TokenClassBasic ℕ64 TokenBasic
 lexer = lexerBasic puns kws prim ops
   where
-    puns = list ["(",")","{","}","[","]",".",",",";",":","=","->","=>","<-","<=","!","#"]
+    puns = list ["(",")","{","}","[","]","<",">",".",",",";",":","=","->","=>","<-","<=","!","#"]
     kws = list 
       [ "TEST","EXPECTED","AND"
       , "let","in","if","then","else"
@@ -62,8 +62,8 @@ lexer = lexerBasic puns kws prim ops
       , "box"
       , "class","fields","method","end","new","object"
       ]
-    prim = list ["true","false","bad","loc"]
-    ops = list ["+","-","*","/","<",">","<=",">=","==","/=","||","&&"]
+    prim = list ["true","false","bad","loc","_|_"]
+    ops = list ["+","-","*","/","<?",">?","<=?",">=?","=?","/=?","||","&&"]
 
 pBool ∷ CParser TokenBasic 𝔹
 pBool = concat

@@ -1,0 +1,7 @@
+TEST
+
+if true then false else true
+
+EXPECTED
+
+< false , _|_ , {false} >

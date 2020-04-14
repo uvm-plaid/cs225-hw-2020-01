@@ -34,13 +34,13 @@
    ,ViewPatterns 
    ,DeriveLift #-}
 
-module Lang.L7.Util where
+module Lang.L8.Util where
 
 import UVMHS
 
 import Util.Lex
 
-import Lang.L7.Data
+import Lang.L8.Data
 
 import qualified Prelude as HS
 import qualified Language.Haskell.TH.Syntax as QQ
@@ -50,6 +50,9 @@ import qualified Data.Map as Map
 
 makePrettySum ''Expr
 makePrettySum ''Value
+makePrettySum ''IntegerHat
+makePrettySum ''ValueHat
+makePrettySum ''AnswerHat
 
 deriving instance QQ.Lift Expr
 
@@ -66,7 +69,6 @@ pExpr = cpNewContext "expression" $ mixfix $ concat
   [ mixTerminal $ do cpSyntax "(" ; e ← pExpr ; cpSyntax ")" ; return e
   , mixTerminal $ do i ← cpInteger ; return $ IntE i
   , mixInfixL (𝕟64 level_PLUS) $ do cpSyntax "+" ; return PlusE
-  , mixInfixL (𝕟64 level_TIMES) $ do cpSyntax "*" ; return TimesE
   , mixTerminal $ do b ← pBool ; return $ BoolE b
   , mixPrefix (𝕟64 level_LET) $ do
       cpSyntax "if"
@@ -83,104 +85,56 @@ pExpr = cpNewContext "expression" $ mixfix $ concat
       e ← pExpr
       cpSyntax "in"
       return $ LetE x e
-  , mixPrefix (𝕟64 level_LET) $ do
-      cpSyntax "fun"
-      x ← pVar
-      cpSyntax "=>"
-      return $ FunE x
-  , mixInfixL (𝕟64 level_APP) $ return AppE
-  , mixPrefix (𝕟64 level_APP) $ do
-      cpSyntax "box"
-      return $ BoxE
-  , mixPrefix (𝕟64 level_UNBOX) $ do
-      cpSyntax "!"
-      return $ UnboxE
-  , mixInfixR (𝕟64 level_ASSIGN) $ do
-      cpSyntax "<-"
-      return $ AssignE
-  , mixInfixR (𝕟64 level_LET) $ do
-      cpSyntax ";"
-      return $ \ e₁ e₂ → LetE (chars "_") e₁ e₂
-  , mixTerminal $ do
-      cpSyntax "class"
-      cpSyntax "fields"
-      xs ← cpMany pVar
-      xes ← cpMany $ do
-        cpSyntax "method"
-        x ← pVar
-        cpSyntax "=>"
-        e ← pExpr
-        return $ x :* e
-      cpSyntax "end"
-      return $ ClassE (tohs xs) $ tohs xes
-  , mixTerminal $ do
-      cpSyntax "new"
-      e₁ ← pExpr
-      cpSyntax "{"
-      xes ← cpManySepBy (cpSyntax ",") $ do
-        x ← pVar
-        cpSyntax "="
-        e ← pExpr
-        return $ x :* e
-      cpSyntax "}"
-      return $ NewE e₁ $ tohs xes
-  , mixPostfix (𝕟64 level_ACCESS) $ do
-      cpSyntax "."
-      x ← pVar
-      return $ \ e → AccessE e x
   ]
-
-pLoc ∷ CParser TokenBasic ℤ
-pLoc = do cpSyntax "loc" ; cpInteger
 
 pValue ∷ CParser TokenBasic Value
 pValue = cpNewContext "value" $ concat
   [ do i ← cpInteger ; return $ IntV i
   , do b ← pBool ; return $ BoolV b
-  , do cpSyntax "("
-       cpSyntax "fun"
-       x ← pVar
-       cpSyntax "=>"
-       e ← pExpr
-       cpSyntax ","
-       γ ← pEnv
-       cpSyntax ")"
-       return $ CloV x e γ
-  , do ℓ ← pLoc
-       return $ LocV ℓ
-  , do cpSyntax "("
-       cpSyntax "class"
-       cpSyntax "fields"
-       xs ← cpMany pVar
-       xes ← cpMany $ do
-         cpSyntax "method"
-         x ← pVar
-         cpSyntax "=>"
-         e ← pExpr
-         return $ x :* e
-       cpSyntax "end"
-       cpSyntax ","
-       γ ← pEnv
-       cpSyntax ")"
-       return $ ClassV (tohs xs) (tohs xes) γ
-  , do cpSyntax "("
-       cpSyntax "object"
-       xis ← pMap pVar pInt
-       cpSyntax ","
-       xes ← pMap pVar pExpr
-       cpSyntax ","
-       γ ← pEnv
-       return $ ObjectV xis xes γ
   ]
 
 pAnswer ∷ CParser TokenBasic Answer
-pAnswer = pMaybe (pPair pStore pValue)
+pAnswer = pMaybe pValue
 
 pEnv ∷ CParser TokenBasic Env
 pEnv = pMap pVar pValue
 
-pStore ∷ CParser TokenBasic Store
-pStore = pMap pLoc pValue
+pBoolHat ∷ CParser TokenBasic BoolHat
+pBoolHat = cpNewContext "boolHat" $ pSet pBool
+
+pIntHat ∷ CParser TokenBasic IntegerHat
+pIntHat = cpNewContext "integerHat" $ concat
+  [ do cpSyntax "_|_" ; return BotIH
+  , do cpSyntax "["
+       i₁ ← cpInteger
+       cpSyntax ","
+       i₂ ← cpInteger
+       cpSyntax "]"
+       return $ RangeIH i₁ i₂
+  ]
+
+pValueHat ∷ CParser TokenBasic ValueHat
+pValueHat = cpNewContext "valueHat" $ do
+  cpSyntax "<"
+  î ← pIntHat
+  cpSyntax ","
+  b̂ ← pBoolHat
+  cpSyntax ">"
+  return $ ValueHat î b̂
+
+pEnvHat ∷ CParser TokenBasic EnvHat
+pEnvHat = pMap pVar pValueHat
+
+pAnswerHat ∷ CParser TokenBasic AnswerHat
+pAnswerHat = cpNewContext "answerHat" $ do
+  cpSyntax "<"
+  b ← pBool
+  cpSyntax ","
+  î ← pIntHat
+  cpSyntax ","
+  b̂ ← pBoolHat
+  cpSyntax ">"
+  return $ AnswerHat b $ ValueHat î b̂
 
 parseExpr ∷ 𝕊 → IO Expr
 parseExpr = parseIO pExpr *∘ tokenizeIO lexer ∘ tokens
@@ -190,7 +144,7 @@ quoteExpr cs = do
   e ← QQ.runIO $ parseExpr $ string cs
   [| e |]
 
-l7 ∷ QQ.QuasiQuoter
-l7 = QQ.QuasiQuoter quoteExpr (const $ HS.fail $ chars "quote pattern - I can't even") 
+l8 ∷ QQ.QuasiQuoter
+l8 = QQ.QuasiQuoter quoteExpr (const $ HS.fail $ chars "quote pattern - I can't even") 
                               (const $ HS.fail $ chars "quote type - I can't even") 
                               (const $ HS.fail $ chars "quote dec - I can't even")

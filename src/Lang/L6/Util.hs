@@ -137,7 +137,7 @@ quoteExpr cs = do
   e ← QQ.runIO $ parseExpr $ string cs
   [| e |]
 
-l4 ∷ QQ.QuasiQuoter
-l4 = QQ.QuasiQuoter quoteExpr (const $ HS.fail $ chars "quote pattern - I can't even") 
+l6 ∷ QQ.QuasiQuoter
+l6 = QQ.QuasiQuoter quoteExpr (const $ HS.fail $ chars "quote pattern - I can't even") 
                               (const $ HS.fail $ chars "quote type - I can't even") 
                               (const $ HS.fail $ chars "quote dec - I can't even")

@@ -1,0 +1,12 @@
+TEST
+
+if (if true-or-false 
+    then true-or-false 
+    else one-or-two)
+then 100
+else 200
+
+EXPECTED
+
+< true , [100,200] , {} >
+
