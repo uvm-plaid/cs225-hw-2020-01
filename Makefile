@@ -52,6 +52,9 @@ hw10: ; make eval EVAL_PATH=HW10
 .PHONY: live
 live: ; make eval EVAL_PATH=Live
 
+.PHONY: fp
+fp: ; make eval EVAL_PATH=FP
+
 
 #################
 # GHCI HOMEWORK #
@@ -97,6 +100,9 @@ hw10-i: ; make interact EVAL_PATH=HW10
 .PHONY: live-i
 live-i: ; make interact EVAL_PATH=Live
 
+.PHONY: fp-i
+fp-i: ; make interact EVAL_PATH=FP
+
 ##################
 # GHCID HOMEWORK #
 ##################
@@ -140,6 +146,9 @@ hw10-dev: ; make dev EVAL_PATH=HW10
 
 .PHONY: live-dev
 live-dev: ; make dev EVAL_PATH=Live
+
+.PHONY: fp-dev
+fp-dev: ; make dev EVAL_PATH=FP
 
 ###########
 # PARSING #
@@ -219,7 +228,7 @@ HW_RELEASE := 01 02 03 04 05 06 07 08 09
 LANG_RELEASE := Trees L1 L1M L1MN L2 L2C L3 L4 L5 L6 L7 L8
 NO_TOUCHIE := src/HW02.hs src/HW03.hs src/HW06.hs src/HW07.hs
 RELEASE_FILES := \
-	Makefile package.yaml README.md stack.yaml \
+	Makefile package.yaml README.md stack.yaml src/FP.hs \
 	$(wildcard src/Util/*) \
     $(foreach n,$(HW_RELEASE),src/HW$n.hs $(wildcard tests/hw$n/**/*)) \
 	$(foreach l,$(LANG_RELEASE),src/Lang/$l.hs $(wildcard src/Lang/$l/*.hs)) \
