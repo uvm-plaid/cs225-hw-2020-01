@@ -56,11 +56,12 @@ lexer = lexerBasic puns kws prim ops
       , "let","in","if","then","else"
       , "object"
       , "def"
-      , "do"
       , "nothing"
       , "fun"
       , "box"
+      , "exe"
       , "class","fields","method","end","new","object"
+      , "fst","snd","left","right","case","while","do","throw","try","catch"
       ]
     prim = list ["true","false","bad","loc","_|_"]
     ops = list ["+","-","*","/","<?",">?","<=?",">=?","=?","/=?","||","&&"]
@@ -140,5 +141,8 @@ pTest pA pB = cpNewContext "test" $ concat
        return (e,a)
   ]
 
+lexAndParseIO ∷ (Pretty a) ⇒ CParser TokenBasic a → 𝕊 → IO a
+lexAndParseIO p = parseIO p *∘ tokenizeIO lexer ∘ tokens
+
 parseTest ∷ (Pretty a,Pretty b) ⇒ CParser TokenBasic a → CParser TokenBasic b → 𝕊 → IO (a,b)
-parseTest pA pB = parseIO (pTest pA pB) *∘ tokenizeIO lexer ∘ tokens
+parseTest pA pB = lexAndParseIO $ pTest pA pB
