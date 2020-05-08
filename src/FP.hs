@@ -45,3 +45,14 @@ main = do
     ]
   putStrLn "EXAMPLE"
   putStrLn (show [lme| let p = (1,2) in fst p |])
+  putStrLn (show [lmt| int * bool |])
+  putStrLn (show [lmv| < fun x => y + 1 , {y = 2} > |])
+  putStrLn (show [lma| <success> { loc 2 = 4 } , 1 |])
+  putStrLn (show [lma| <error> { loc 2 = 4 } , "message" |])
+  putStrLn (show [lma| <bad> |])
+  putStrLn (show [lme| fun x : int => x + x |])
+  putStrLn (show [lme| let p = (1*1, 2+2) in 
+                       fst p * fst p + snd p |])
+  putStrLn (show [lme| let tu2 = right false in 
+                       let r2 = case tu2 {left x => x * x} {right x => if x then 1 else 2} in
+                       r2 |])
